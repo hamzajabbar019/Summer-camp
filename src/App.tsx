@@ -28,7 +28,11 @@ import {
   Sparkles,
   Rocket,
   Palette,
-  Music
+  Music,
+  Mountain,
+  Sun,
+  Trees,
+  Tent
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -58,27 +62,19 @@ interface ScheduleDay {
 // --- Data ---
 const SCHEDULE: ScheduleDay[] = [
   {
-    day: "Day 1 & 2",
-    date: "July 10th - 11th, 2026",
-    venue: "Rose Garden",
-    time: "8:00 AM - 1:00 PM",
-    details: "Inauguration, Sunnah Sports, and Skill Workshops.",
+    day: "Day 1",
+    date: "June 20th, 2026",
+    venue: "Rose Garden & Fahad Lawn",
+    time: "8:00 AM - 3:00 PM",
+    details: "Sunnah Sports, Skill Workshops, and Interactive Sessions.",
     color: "bg-sky-400"
   },
   {
-    day: "Day 3",
-    date: "July 12th, 2026",
-    venue: "Jamia Millia Masjid",
-    time: "11:00 AM - 9:00 PM",
-    details: "Outdoor Camping, Spiritual Reminders, and Night Vigil.",
-    color: "bg-yellow-400"
-  },
-  {
-    day: "Day 4",
-    date: "July 13th, 2026",
+    day: "Day 2",
+    date: "June 21st, 2026",
     venue: "Farm House",
-    time: "8:00 AM - 7:30 PM",
-    details: "Grand Finale, Science Exhibition, and Award Ceremony.",
+    time: "8:00 AM - 4:00 PM",
+    details: "Grand Finale, Farm House Day, and Award Ceremony.",
     color: "bg-orange-500"
   }
 ];
@@ -97,8 +93,7 @@ const ACTIVITIES: ActivityCategory[] = [
     accentColor: "text-lime-500",
     items: [
       { title: "Karate", description: "Self-defense and discipline training.", icon: <ShieldCheck className="w-5 h-5" />, color: "bg-lime-100 text-lime-600" },
-      { title: "Public Speaking", description: "Find your voice and lead with confidence.", icon: <Users className="w-5 h-5" />, color: "bg-lime-100 text-lime-600" },
-      { title: "Art Gallery", description: "Unleash your creativity on canvas.", icon: <Palette className="w-5 h-5" />, color: "bg-lime-100 text-lime-600" }
+      { title: "Public Speaking", description: "Find your voice and lead with confidence.", icon: <Users className="w-5 h-5" />, color: "bg-lime-100 text-lime-600" }
     ]
   },
   {
@@ -106,8 +101,7 @@ const ACTIVITIES: ActivityCategory[] = [
     accentColor: "text-purple-500",
     items: [
       { title: "Science Exhibition", description: "Innovative projects and experiments.", icon: <Rocket className="w-5 h-5" />, color: "bg-purple-100 text-purple-600" },
-      { title: "Quiz Competition", description: "Test your knowledge across subjects.", icon: <BookOpen className="w-5 h-5" />, color: "bg-purple-100 text-purple-600" },
-      { title: "Spell Bee", description: "Master the art of vocabulary.", icon: <BookOpen className="w-5 h-5" />, color: "bg-purple-100 text-purple-600" }
+      { title: "Quiz Competition", description: "Test your knowledge across subjects.", icon: <BookOpen className="w-5 h-5" />, color: "bg-purple-100 text-purple-600" }
     ]
   },
   {
@@ -115,19 +109,10 @@ const ACTIVITIES: ActivityCategory[] = [
     accentColor: "text-orange-500",
     items: [
       { title: "Inaam Ghar", description: "Exciting prizes and interactive fun.", icon: <Gamepad2 className="w-5 h-5" />, color: "bg-orange-100 text-orange-600" },
-      { title: "Stack n Run", description: "Speed and coordination challenges.", icon: <Gamepad2 className="w-5 h-5" />, color: "bg-orange-100 text-orange-600" },
-      { title: "Water n Sponge", description: "Cool down with refreshing water games.", icon: <Gamepad2 className="w-5 h-5" />, color: "bg-orange-100 text-orange-600" },
       { title: "Tug of War", description: "The ultimate test of team strength.", icon: <Gamepad2 className="w-5 h-5" />, color: "bg-orange-100 text-orange-600" }
     ]
   },
-  {
-    category: "Spiritual Growth",
-    accentColor: "text-rose-500",
-    items: [
-      { title: "Daily Reminders", description: "Heart-softening Islamic insights.", icon: <Heart className="w-5 h-5" />, color: "bg-rose-100 text-rose-600" },
-      { title: "Muslim Hain Hum", description: "Special presentation on our global identity.", icon: <Heart className="w-5 h-5" />, color: "bg-rose-100 text-rose-600" }
-    ]
-  }
+
 ];
 
 // --- Components ---
@@ -200,7 +185,7 @@ const Navbar = () => {
             href="#register"
             className="bg-orange-500 text-white px-8 py-3 rounded-2xl font-playful font-black uppercase tracking-widest shadow-lg hover:bg-yellow-400 transition-colors"
           >
-            Contact
+            Register Now
           </motion.a>
         </div>
 
@@ -248,17 +233,41 @@ const Navbar = () => {
 };
 
 const Hero = () => {
+  const images = [
+    "/images/1.jpeg", "/images/4.jpeg", "/images/5.jpeg", "/images/7.jpeg", "/images/19.jpeg",
+    "/images/20.jpeg", "/images/21.jpeg", "/images/22.jpeg", "/images/24.jpeg", "/images/35.jpeg",
+    "/images/37.jpeg", "/images/39.jpeg", "/images/41.jpeg", "/images/42.jpeg", "/images/43.jpeg",
+    "/images/44.jpeg", "/images/47.jpeg", "/images/48.jpeg", "/images/50.jpeg", "/images/57.jpeg",
+    "/images/59.jpeg", "/images/62.jpeg"
+  ];
+  const [currentImage, setCurrentImage] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % images.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [images.length]);
+
   return (
-    <section id="home" className="relative min-h-screen pt-32 bg-sky-500 overflow-hidden flex items-center">
+    <section id="home" className="relative min-h-[90vh] pt-32 bg-sky-600 overflow-hidden flex items-center">
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-sky-400 via-sky-500 to-sky-600 z-10 opacity-90" />
-        <img
-          src="https://picsum.photos/seed/summer-fun/1920/1080"
-          alt="Camp Background"
-          className="w-full h-full object-cover mix-blend-overlay"
-          referrerPolicy="no-referrer"
-        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40 z-10" />
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={currentImage}
+            src={images[currentImage]}
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 1.5 }}
+            alt="Camp Background"
+            className="w-full h-full object-cover"
+            referrerPolicy="no-referrer"
+          />
+        </AnimatePresence>
       </div>
+
 
       {/* Playful Floating Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-20">
@@ -288,6 +297,9 @@ const Hero = () => {
       </div>
 
       <div className="relative z-30 max-w-7xl mx-auto px-6 w-full text-center md:text-left">
+        <div className="absolute top-10 right-10 opacity-20 pointer-events-none hidden md:block">
+          <Trees className="w-32 h-32 text-white" />
+        </div>
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -301,9 +313,9 @@ const Hero = () => {
           >
             <span className="animate-bounce">🚀</span> 25 Years of Adventure
           </motion.div>
-          <h1 className="text-6xl md:text-[9rem] lg:text-[11rem] font-playful font-black text-white leading-[0.85] mb-16 tracking-tighter uppercase drop-shadow-[0_10px_10px_rgba(0,0,0,0.2)]">
-            Camp, Create,<br />
-            <span className="text-yellow-300 drop-shadow-[0_10px_0_rgba(234,179,8,0.3)]">Conquer!</span>
+          <h1 className="text-5xl md:text-[8rem] font-playful font-black text-white tracking-tighter uppercase leading-[0.85] mb-8 drop-shadow-2xl px-2">
+            Summer<br />
+            <span className="text-yellow-400 drop-shadow-[0_12px_0_rgba(234,179,8,0.2)]">Camp</span>
           </h1>
 
           <div className="flex flex-col md:flex-row items-center gap-12">
@@ -334,14 +346,15 @@ const Hero = () => {
 
 const AboutUs = () => {
   const organizers = [
-    { name: "AFNAN AHMED", role: "ORGANIZER", img: "/images/6.jpeg" },
-    { name: "SALMAN SALEEM", role: "ORGANIZER", img: "/images/8.jpeg" },
-    { name: "MAZHAR AHMED KHAN", role: "ORGANIZER", img: "/images/9.jpeg" },
-    { name: "KHALID SIDDIQUI", role: "ORGANIZER", img: "/images/1.jpeg" },
+    { name: "AFNAN AHMED", role: "ORGANIZER", img: "/images/1.jpeg" },
+    { name: "SALMAN SALEEM", role: "ORGANIZER", img: "/images/19.jpeg" },
+    { name: "MAZHAR AHMED KHAN", role: "ORGANIZER", img: "/images/20.jpeg" },
+    { name: "KHALID SIDDIQUI", role: "ORGANIZER", img: "/images/21.jpeg" },
+    { name: "HAMZA JABBAR", role: "ORGANIZER", img: "/images/22.jpeg" },
   ];
 
   return (
-    <section id="about" className="py-32 bg-white relative overflow-hidden">
+    <section id="about" className="py-20 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-20 items-center mb-32">
           <motion.div
@@ -350,10 +363,13 @@ const AboutUs = () => {
             viewport={{ once: true }}
             className="relative"
           >
+            <div className="absolute -top-12 -right-12 opacity-10 pointer-events-none hidden lg:block">
+              <Tent className="w-40 h-40 text-sky-500" />
+            </div>
             <div className="relative z-10 rounded-[3rem] overflow-hidden border-[12px] border-sky-100 shadow-2xl rotate-3">
               <img
-                src="/images/4.jpeg"
-                alt="About Summer Camp"
+                src="/images/7.jpeg"
+                alt="Group Moment"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -384,7 +400,7 @@ const AboutUs = () => {
             <motion.span className="text-orange-500 font-playful font-black uppercase tracking-[0.4em] mb-6 block">
               Who We Are
             </motion.span>
-            <h2 className="text-6xl md:text-8xl font-playful font-black tracking-tighter uppercase leading-none text-sky-900 mb-12">
+            <h2 className="text-5xl md:text-7xl font-playful font-black tracking-tighter uppercase leading-none text-sky-900 mb-8">
               Sparking <span className="text-sky-500">Imagination</span> Since 2001
             </h2>
             <div className="space-y-8 text-sky-800/80 text-xl font-bold leading-relaxed">
@@ -414,7 +430,7 @@ const AboutUs = () => {
             <motion.span className="text-sky-500 font-playful font-black uppercase tracking-[0.4em] mb-6 block">Our Team</motion.span>
             <h3 className="text-5xl md:text-7xl font-playful font-black text-sky-900 uppercase tracking-tighter">Previous <span className="text-orange-500">Organizers</span></h3>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
             {organizers.map((org, idx) => (
               <motion.div
                 key={idx}
@@ -443,7 +459,7 @@ const AboutUs = () => {
 
 const Schedule = () => {
   return (
-    <section id="schedule" className="py-32 bg-sky-50 relative overflow-hidden">
+    <section id="schedule" className="py-20 bg-sky-50 relative overflow-hidden">
       {/* Decorative Blobs */}
       <motion.div
         animate={{
@@ -486,46 +502,51 @@ const Schedule = () => {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-10">
+        <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
           {SCHEDULE.map((item, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.2 }}
-              whileHover={{ y: -20, scale: 1.05 }}
-              className="bg-white p-10 rounded-[3.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] border-b-[12px] border-sky-100 hover:border-sky-400 transition-all group"
+              whileHover={{ y: -10 }}
+              className="bg-white p-12 rounded-[4rem] shadow-[0_30px_60px_rgba(0,0,0,0.08)] border-b-[12px] border-sky-100 hover:border-sky-500 transition-all group"
             >
-              <motion.div
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.8 }}
-                className={`w-20 h-20 ${item.color} rounded-[2rem] flex items-center justify-center mb-10 shadow-xl border-4 border-white`}
-              >
-                <Calendar className="text-white w-10 h-10" />
-              </motion.div>
-              <h3 className="text-4xl font-playful font-black text-sky-900 mb-2 uppercase group-hover:text-sky-600 transition-colors">{item.day}</h3>
-              <p className="text-sky-500 font-playful font-black text-xl mb-10 uppercase tracking-widest">{item.date}</p>
+              <div className="flex items-center justify-between mb-10">
+                <motion.div
+                  whileHover={{ rotate: 360 }}
+                  transition={{ duration: 0.8 }}
+                  className={`w-20 h-20 ${item.color} rounded-3xl flex items-center justify-center shadow-lg border-4 border-white`}
+                >
+                  <Calendar className="text-white w-10 h-10" />
+                </motion.div>
+                <div className="text-right">
+                  <h3 className="text-4xl font-playful font-black text-sky-900 uppercase">{item.day}</h3>
+                  <p className="text-sky-500 font-playful font-black text-lg uppercase tracking-widest">{item.date}</p>
+                </div>
+              </div>
 
               <div className="space-y-6">
-                <div className="flex items-center gap-6 bg-sky-50/80 p-6 rounded-3xl border-2 border-transparent group-hover:border-sky-200 transition-all">
-                  <div className="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center shrink-0">
-                    <MapPin className="w-6 h-6 text-orange-500" />
+                <div className="flex items-center gap-6 bg-sky-50 p-6 rounded-3xl border-2 border-transparent group-hover:border-sky-200 transition-all">
+                  <div className="w-14 h-14 bg-orange-100 rounded-2xl flex items-center justify-center shrink-0">
+                    <MapPin className="w-7 h-7 text-orange-500" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-playful font-black text-sky-300 uppercase tracking-widest mb-1">Where</p>
+                    <p className="text-[10px] font-playful font-black text-sky-300 uppercase tracking-widest mb-1">Location</p>
                     <p className="text-sky-900 font-black text-xl leading-tight">{item.venue}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-6 bg-sky-50/80 p-6 rounded-3xl border-2 border-transparent group-hover:border-sky-200 transition-all">
-                  <div className="w-12 h-12 bg-sky-100 rounded-2xl flex items-center justify-center shrink-0">
-                    <Clock className="w-6 h-6 text-sky-500" />
+                <div className="flex items-center gap-6 bg-sky-50 p-6 rounded-3xl border-2 border-transparent group-hover:border-sky-200 transition-all">
+                  <div className="w-14 h-14 bg-sky-100 rounded-2xl flex items-center justify-center shrink-0">
+                    <Clock className="w-7 h-7 text-sky-500" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-playful font-black text-sky-300 uppercase tracking-widest mb-1">When</p>
+                    <p className="text-[10px] font-playful font-black text-sky-300 uppercase tracking-widest mb-1">Time</p>
                     <p className="text-sky-900 font-black text-xl leading-tight">{item.time}</p>
                   </div>
                 </div>
               </div>
+
 
               <div className="mt-10 pt-10 border-t-2 border-sky-50">
                 <p className="text-sky-700/60 font-bold italic leading-relaxed text-lg">
@@ -542,68 +563,49 @@ const Schedule = () => {
 
 const Activities = () => {
   return (
-    <section id="activities" className="py-32 bg-white text-sky-900 relative overflow-hidden">
+    <section id="activities" className="py-20 bg-white text-sky-900 relative overflow-hidden">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-5">
-        <div className="absolute top-20 left-10 w-40 h-40 border-8 border-sky-500 rounded-full" />
+
         <div className="absolute bottom-20 right-10 w-60 h-60 border-8 border-orange-500 rounded-[3rem] rotate-45" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border-[40px] border-yellow-100 rounded-full" />
+
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center mb-32">
-          <motion.span
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            className="text-sky-600 font-playful font-black uppercase tracking-[0.4em] mb-6 block"
+        <div className="text-center mb-16">
+          <motion.div
+            initial={{ opacity: 0, rotate: -10 }}
+            whileInView={{ opacity: 1, rotate: 0 }}
+            className="inline-flex items-center gap-2 bg-yellow-400 text-yellow-900 px-4 py-2 rounded-full font-playful font-black text-xs uppercase tracking-widest mb-6 shadow-lg"
           >
+            <Zap className="w-4 h-4 fill-current" />
             The Fun Zone
-          </motion.span>
-          <h2 className="text-6xl md:text-9xl font-playful font-black tracking-tighter uppercase leading-none">
+            <Zap className="w-4 h-4 fill-current" />
+          </motion.div>
+          <h2 className="text-5xl md:text-7xl font-playful font-black tracking-tighter uppercase leading-none">
             Awesome <span className="text-yellow-400 drop-shadow-[0_8px_0_rgba(234,179,8,0.2)]">Skills</span>
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {ACTIVITIES.flatMap((cat, catIdx) =>
             cat.items.map((item, itemIdx) => (
               <motion.div
                 key={`${catIdx}-${itemIdx}`}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: (catIdx + itemIdx) * 0.05 }}
-                whileHover={{
-                  y: -15,
-                  scale: 1.02,
-                  boxShadow: "0 30px 60px -12px rgba(0, 0, 0, 0.15)"
-                }}
-                className="group bg-sky-50/50 p-8 rounded-[3rem] border-4 border-transparent hover:border-sky-100 transition-all flex flex-col h-full relative overflow-hidden"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ delay: (catIdx + itemIdx) * 0.02 }}
+                whileHover={{ y: -5, scale: 1.05 }}
+                className="group bg-sky-50 p-6 rounded-[2.5rem] border-2 border-transparent hover:border-sky-200 transition-all text-center flex flex-col items-center"
               >
-                {/* Category Badge */}
-                <div className={`absolute top-6 right-6 px-4 py-1 rounded-full text-[10px] font-playful font-black uppercase tracking-widest ${cat.accentColor.replace('text', 'bg')} text-white shadow-sm`}>
+                <div className={`w-14 h-14 ${item.color} rounded-2xl flex items-center justify-center shadow-md mb-4 group-hover:rotate-12 transition-transform`}>
+                  {React.cloneElement(item.icon as React.ReactElement, { className: "w-7 h-7" })}
+                </div>
+                <h4 className="text-sm font-playful font-black uppercase tracking-tight text-sky-900 group-hover:text-sky-600 transition-colors">
+                  {item.title}
+                </h4>
+                <div className="mt-2 px-3 py-0.5 rounded-full bg-white text-[8px] font-playful font-black text-sky-500 uppercase tracking-widest shadow-sm">
                   {cat.category}
-                </div>
-
-                <motion.div
-                  animate={{ y: [0, -5, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: itemIdx * 0.5 }}
-                  className={`w-20 h-20 ${item.color} rounded-[2rem] flex items-center justify-center group-hover:rotate-12 transition-transform shrink-0 shadow-lg border-4 border-white mb-8`}
-                >
-                  {React.cloneElement(item.icon as React.ReactElement, { className: "w-10 h-10" })}
-                </motion.div>
-
-                <div className="flex-grow">
-                  <h4 className="text-3xl font-playful font-black mb-4 uppercase group-hover:text-sky-600 transition-colors leading-tight">
-                    {item.title}
-                  </h4>
-                  <p className="text-sky-900/70 font-bold leading-relaxed text-lg">
-                    {item.description}
-                  </p>
-                </div>
-
-                <div className="mt-8 pt-6 border-t border-sky-100 flex items-center justify-between">
-                  <span className="text-xs font-playful font-black text-sky-300 uppercase tracking-widest">Level Up!</span>
-                  <ArrowRight className="w-5 h-5 text-sky-200 group-hover:text-sky-500 group-hover:translate-x-2 transition-all" />
                 </div>
               </motion.div>
             ))
@@ -614,121 +616,11 @@ const Activities = () => {
   );
 };
 
-const Sponsorship = () => {
-  return (
-    <section id="sponsorship" className="py-32 bg-sky-600 text-white relative overflow-hidden">
-      {/* Decorative Elements */}
-      <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, white 2px, transparent 2px)', backgroundSize: '40px 40px' }} />
 
-      {/* Floating Shapes */}
-      <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        className="absolute -top-20 -right-20 w-64 h-64 border-[20px] border-white/10 rounded-full"
-      />
-      <motion.div
-        animate={{ y: [0, 50, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-10 left-10 w-32 h-32 bg-yellow-400/20 rounded-3xl rotate-12"
-      />
-
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-32 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <span className="text-sm font-playful font-black uppercase tracking-[0.5em] text-white/60 mb-8 block">Partnership</span>
-            <h2 className="text-6xl md:text-9xl font-playful font-black text-white tracking-tighter uppercase leading-[0.9] mb-12 drop-shadow-lg">
-              Be a <span className="text-yellow-300 underline decoration-white/40 decoration-wavy underline-offset-[12px]">Super</span> Sponsor
-            </h2>
-            <p className="text-sky-50 text-2xl font-bold leading-relaxed mb-16 max-w-xl">
-              Help us create magic for 350+ students! Your brand will be seen across 4 premium venues and our massive digital network.
-            </p>
-
-            <div className="grid sm:grid-cols-2 gap-8 mb-16">
-              {[
-                "350+ Active Students",
-                "Logo on Cool Merch",
-                "Social Media Shoutouts",
-                "On-site Big Banners"
-              ].map((benefit, idx) => (
-                <motion.div
-                  key={idx}
-                  whileHover={{ scale: 1.05, x: 10 }}
-                  className="flex items-center gap-6 bg-white/10 p-6 rounded-[2rem] border-2 border-white/20 backdrop-blur-sm"
-                >
-                  <div className="w-12 h-12 bg-yellow-400 rounded-2xl flex items-center justify-center shadow-xl rotate-6 shrink-0">
-                    <Star className="w-6 h-6 text-white fill-white" />
-                  </div>
-                  <span className="text-white font-playful font-black uppercase tracking-widest text-sm leading-tight">{benefit}</span>
-                </motion.div>
-              ))}
-            </div>
-
-            <motion.a
-              whileHover={{ scale: 1.1, rotate: -2 }}
-              whileTap={{ scale: 0.9 }}
-              href="mailto:ijtshahfaisalchapter@gmail.com
-"
-              className="inline-flex items-center gap-6 bg-white text-sky-600 px-12 py-6 rounded-[2.5rem] text-xl font-playful font-black uppercase tracking-widest hover:bg-yellow-300 hover:text-sky-900 transition-all shadow-[0_15px_30px_rgba(0,0,0,0.2)]"
-            >
-              Request Deck
-              <ArrowRight className="w-8 h-8" />
-            </motion.a>
-          </motion.div>
-
-          <div className="relative">
-            <div className="grid grid-cols-2 gap-6 mb-8">
-              {["/images/4.jpeg", "/images/5.jpeg", "/images/2.jpeg", "/images/3.jpeg"].map((img, i) => (
-                <motion.div
-                  key={i}
-                  animate={{ y: i % 2 === 0 ? [0, -15, 0] : [0, 15, 0] }}
-                  transition={{ duration: 4 + i, repeat: Infinity, ease: "easeInOut" }}
-                  className="rounded-[2.5rem] overflow-hidden border-8 border-white/20 shadow-2xl aspect-square"
-                >
-                  <img src={img} alt={`Camp moment ${i + 1}`} className="w-full h-full object-cover" />
-                </motion.div>
-              ))}
-            </div>
-            <div className="grid grid-cols-2 gap-10">
-              <motion.div
-                animate={{ y: [0, -20, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="bg-white p-10 rounded-[4rem] text-center shadow-[0_30px_60px_rgba(0,0,0,0.1)] border-b-[12px] border-sky-100"
-              >
-                <span className="block text-5xl font-playful font-black text-sky-600 mb-4">350+</span>
-                <span className="text-xs font-playful font-black text-sky-300 uppercase tracking-[0.3em]">Students</span>
-              </motion.div>
-              <motion.div
-                animate={{ y: [0, 20, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                className="bg-white p-10 rounded-[4rem] text-center shadow-[0_30px_60px_rgba(0,0,0,0.1)] border-b-[12px] border-orange-100 mt-10"
-              >
-                <span className="block text-5xl font-playful font-black text-orange-500 mb-4">25yr</span>
-                <span className="text-xs font-playful font-black text-orange-300 uppercase tracking-[0.3em]">Legacy</span>
-              </motion.div>
-            </div>
-
-            {/* Floating Badge */}
-            <motion.div
-              animate={{ rotate: [12, -12, 12], scale: [1, 1.1, 1] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-yellow-400 rounded-full border-[10px] border-white shadow-[0_20px_40px_rgba(0,0,0,0.2)] flex items-center justify-center z-20"
-            >
-              <span className="text-white font-playful font-black text-center leading-none text-2xl uppercase tracking-tighter">BIG<br />REACH</span>
-            </motion.div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
 
 const Contact = () => {
   return (
-    <footer id="contact" className="bg-sky-900 text-white py-32 rounded-t-[5rem] relative overflow-hidden">
+    <footer id="contact" className="bg-sky-900 text-white pt-24 pb-12 rounded-t-[5rem] relative overflow-hidden">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-5">
         <div className="absolute top-20 right-10 w-40 h-40 border-8 border-yellow-400 rounded-full" />
@@ -736,7 +628,7 @@ const Contact = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-20 mb-32">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-20">
           <div className="col-span-full lg:col-span-1">
             <div className="flex items-center gap-4 mb-10">
               <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-xl rotate-6 overflow-hidden">
@@ -752,7 +644,7 @@ const Contact = () => {
                 <span className="text-[10px] font-playful font-black uppercase tracking-[0.3em] text-white/40">Shah Faisal 2k26</span>
               </div>
             </div>
-            <p className="text-sky-100/60 font-bold leading-relaxed mb-10 text-lg">
+            <p className="text-sky-100 font-bold leading-relaxed mb-10 text-lg">
               Bazm-e-Sathi (Shah Faisal Chapter) powered by Islamic Society of Children Hobbies.
             </p>
             <div className="flex gap-4">
@@ -761,21 +653,21 @@ const Contact = () => {
                 href="https://www.facebook.com/bazmsathishafaisal/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-white/60 hover:text-white hover:bg-sky-600 transition-all shadow-lg"
+                className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-white/80 hover:text-white hover:bg-sky-600 transition-all shadow-lg"
               >
                 <Facebook className="w-8 h-8" />
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.2, rotate: -12 }}
                 href="#"
-                className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-white/60 hover:text-white hover:bg-orange-500 transition-all shadow-lg"
+                className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-white/80 hover:text-white hover:bg-orange-500 transition-all shadow-lg"
               >
                 <Instagram className="w-8 h-8" />
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.2, rotate: 12 }}
                 href="#"
-                className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-white/60 hover:text-white hover:bg-sky-400 transition-all shadow-lg"
+                className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-white/80 hover:text-white hover:bg-sky-400 transition-all shadow-lg"
               >
                 <Twitter className="w-8 h-8" />
               </motion.a>
@@ -784,7 +676,7 @@ const Contact = () => {
 
           <div>
             <h4 className="text-sm font-playful font-black uppercase tracking-[0.5em] text-yellow-400 mb-10">Quick Links</h4>
-            <ul className="space-y-6 text-sky-100/60 font-playful font-black text-sm uppercase tracking-widest">
+            <ul className="space-y-6 text-sky-100 font-playful font-black text-sm uppercase tracking-widest">
               <li><a href="#home" className="hover:text-white hover:translate-x-2 transition-all inline-block">Home</a></li>
               <li><a href="#about" className="hover:text-white hover:translate-x-2 transition-all inline-block">About</a></li>
               <li><a href="#schedule" className="hover:text-white hover:translate-x-2 transition-all inline-block">Schedule</a></li>
@@ -832,15 +724,6 @@ const Contact = () => {
           </div>
         </div>
 
-        <div className="pt-16 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-8">
-          <p className="text-sky-100/40 font-playful font-black text-xs uppercase tracking-[0.3em]">
-            &copy; 2026 Summer Camp Shah Faisal. All Rights Reserved.
-          </p>
-          <div className="flex items-center gap-8 text-sky-100/40 font-playful font-black text-[10px] uppercase tracking-widest">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-          </div>
-        </div>
       </div>
     </footer>
   );
@@ -853,11 +736,11 @@ const Gallery = () => {
     { id: 3, title: "Camp Activities", img: "/images/21.jpeg", rotate: "-rotate-1" },
     { id: 4, title: "Swimming Pool", img: "/images/22.jpeg", rotate: "rotate-3" },
     { id: 5, title: "Gift Distribution", img: "/images/24.jpeg", rotate: "-rotate-2" },
-    { id: 6, title: "Leadership", img: "/images/10.jpeg", rotate: "rotate-1" },
+    { id: 8, title: "Group Moment", img: "/images/7.jpeg", rotate: "rotate-3" },
   ];
 
   return (
-    <section id="memories" className="py-32 bg-sky-50 relative overflow-hidden">
+    <section id="memories" className="py-20 bg-sky-50 relative overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-10">
         <Sparkles className="absolute top-20 left-[10%] w-20 h-20 text-sky-400" />
@@ -873,8 +756,8 @@ const Gallery = () => {
           >
             Flashback
           </motion.span>
-          <h2 className="text-6xl md:text-9xl font-playful font-black tracking-tighter uppercase leading-none text-sky-900">
-            Camp <span className="text-sky-500 drop-shadow-[0_8px_0_rgba(14,165,233,0.2)]">Memories</span>
+          <h2 className="text-5xl md:text-7xl font-playful font-black tracking-tighter uppercase leading-none text-sky-900">
+            Camp <span className="text-sky-500 drop-shadow-[0_6px_0_rgba(14,165,233,0.15)]">Memories</span>
           </h2>
         </div>
 
@@ -920,52 +803,66 @@ const Gallery = () => {
   );
 };
 
-const Sponsors = () => {
+const Partners = () => {
   const sponsors = [
-    { name: "Al Khidmat Foundation", img: "/images/11.png" },
-    { name: "The Learning Space", img: "/images/12.jpeg" },
-    { name: "Helping Hand", img: "/images/16.png" },
-    { name: "Dar-e-Arqam Schools", img: "/images/15.png" },
-    { name: "Al Ghaffar Travel", img: "/images/17.jpeg" },
-    { name: "Quice Fruit Drinks", img: "/images/14.jpeg" },
+    { name: "Al Khidmat Foundation", img: "/sponsor/11.png" },
+    { name: "The Learning Space", img: "/sponsor/12.jpeg" },
+    { name: "Helping Hand", img: "/sponsor/16.png" },
+    { name: "Dar-e-Arqam Schools", img: "/sponsor/15.png" },
+    { name: "Al Ghaffar Travel", img: "/sponsor/17.jpeg" },
+    { name: "Quice Fruit Drinks", img: "/sponsor/14.jpeg" },
   ];
 
   return (
-    <section id="sponsors" className="py-32 bg-sky-50 relative overflow-hidden">
+    <section id="sponsorship" className="py-20 bg-sky-600 text-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center mb-24">
-          <motion.span
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            className="text-orange-500 font-playful font-black uppercase tracking-[0.4em] mb-6 block"
+        <div className="grid lg:grid-cols-2 gap-20 items-center mb-20">
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
           >
-            Our Partners
-          </motion.span>
-          <h2 className="text-6xl md:text-8xl font-playful font-black tracking-tighter uppercase leading-none text-sky-900">
-            Exclusive <span className="text-sky-500">Sponsors</span>
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-10">
-          {sponsors.map((sponsor, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1 }}
+            <span className="text-sm font-playful font-black uppercase tracking-[0.5em] text-white/60 mb-6 block">Partnership</span>
+            <h2 className="text-5xl md:text-7xl font-playful font-black text-white tracking-tighter uppercase leading-[0.9] mb-8">
+              Be a <span className="text-yellow-300">Super</span> Sponsor
+            </h2>
+            <p className="text-sky-50 text-xl font-bold leading-relaxed mb-10 max-w-xl">
+              Help us create magic for 350+ students! Your brand will be seen across 4 premium venues and our massive digital network.
+            </p>
+            <motion.a
               whileHover={{ scale: 1.05 }}
-              className="flex flex-col items-center gap-5 group"
+              whileTap={{ scale: 0.95 }}
+              href="mailto:ijtshahfaisalchapter@gmail.com"
+              className="inline-flex items-center gap-4 bg-white text-sky-600 px-8 py-4 rounded-2xl text-lg font-playful font-black uppercase tracking-widest hover:bg-yellow-300 hover:text-sky-900 transition-all"
             >
-              <div className="bg-white p-8 rounded-[2.5rem] shadow-xl border-4 border-sky-100 group-hover:border-sky-300 transition-all w-full h-48 flex items-center justify-center overflow-hidden">
-                <img
-                  src={sponsor.img}
-                  alt={sponsor.name}
-                  className="max-w-full max-h-full object-contain transition-all"
-                />
-              </div>
-              <p className="text-sky-900 font-playful font-black text-center uppercase tracking-tight text-base">{sponsor.name}</p>
-            </motion.div>
-          ))}
+              Request Deck
+              <ArrowRight className="w-6 h-6" />
+            </motion.a>
+          </motion.div>
+
+          <div className="space-y-8">
+            <h3 className="text-2xl font-playful font-black text-white uppercase tracking-widest text-center md:text-left mb-6">Our Exclusive Sponsors</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+              {sponsors.map((sponsor, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="flex flex-col items-center gap-3"
+                >
+                  <div className="bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20 shadow-lg w-full h-24 flex items-center justify-center overflow-hidden group hover:bg-white transition-all">
+                    <img
+                      src={sponsor.img}
+                      alt={sponsor.name}
+                      className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform"
+                    />
+                  </div>
+                  <p className="text-white font-playful font-black text-center uppercase tracking-tight text-[10px]">{sponsor.name}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -974,6 +871,20 @@ const Sponsors = () => {
 
 const RegistrationForm = () => {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [preview, setPreview] = useState<string | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setPreview(null);
+    }
+  };
 
   // ─── GOOGLE SHEETS SETUP ───────────────────────────────────────────────────
   // 1. Go to https://sheets.google.com and create a new sheet in ijtshahfaisalchapter@gmail.com
@@ -983,32 +894,77 @@ const RegistrationForm = () => {
   //
   // Apps Script code:
   // function doPost(e) {
-  //   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  //   var data = (e.postData && e.postData.contents) ? JSON.parse(e.postData.contents) : e.parameter;
-  //   sheet.appendRow([new Date(), data.childName || e.parameter.childName, data.age || e.parameter.age, data.parentName || e.parameter.parentName, data.phone || e.parameter.phone, data.area || e.parameter.area]);
-  //   return ContentService.createTextOutput('OK');
+  //   try {
+  //     var ss = SpreadsheetApp.getActiveSpreadsheet() || SpreadsheetApp.openById("1icIAwJu-Qu4aM9LA9Zb_g4zLLntsRQqgduNnzUlaBso");
+  //     var sheet = ss.getSheets()[0];
+  //     var data = (e.postData && e.postData.contents) ? JSON.parse(e.postData.contents) : e.parameter;
+  //     
+  //     var screenshotUrl = "No Screenshot";
+  //     if (data.screenshot && data.screenshot.includes("base64")) {
+  //       try {
+  //         var parts = data.screenshot.split(",");
+  //         var contentType = parts[0].split(":")[1].split(";")[0];
+  //         var base64Data = parts[1];
+  //         var blob = Utilities.newBlob(Utilities.base64Decode(base64Data), contentType, "screenshot_" + (data.childName || "child") + "_" + new Date().getTime());
+  //         var file = DriveApp.createFile(blob);
+  //         file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  //         screenshotUrl = file.getUrl();
+  //       } catch(err) { screenshotUrl = "Error saving: " + err.toString(); }
+  //     }
+  //     
+  //     if (sheet.getLastRow() === 0) {
+  //       sheet.appendRow(["Timestamp", "Child Name", "Age", "Parent Name", "Phone", "Area", "Screenshot Link"]);
+  //     }
+  //     
+  //     sheet.appendRow([
+  //       new Date(), 
+  //       data.childName || e.parameter.childName || "", 
+  //       data.age || e.parameter.age || "", 
+  //       data.parentName || e.parameter.parentName || "", 
+  //       data.phone || e.parameter.phone || "", 
+  //       data.area || e.parameter.area || "",
+  //       screenshotUrl
+  //     ]);
+  //     return ContentService.createTextOutput("OK").setMimeType(ContentService.MimeType.TEXT);
+  //   } catch (error) {
+  //     return ContentService.createTextOutput("Error: " + error.toString()).setMimeType(ContentService.MimeType.TEXT);
+  //   }
   // }
   // ──────────────────────────────────────────────────────────────────────────
-  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzm2Urt_zhN15KKcR2L9B6XIeGnRFIFP17BkpmzJNdZNvON1H2kG4ijuCtXtqsdw700XA/exec';
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzrsfI3PwvZW4zuYrbLSRSKU4jj5Qd7Xy0UtKGmMTvbXx6HA2ZFmMFG3xicd7a-sdxV9Q/exec';
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus('submitting');
     const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
+    const data: Record<string, string> = {};
+
+    // Extract text fields
+    formData.forEach((value, key) => {
+      if (typeof value === 'string') {
+        data[key] = value;
+      }
+    });
+
+    // Handle File (Screenshot)
+    const file = formData.get('screenshot') as File;
+    if (file && file.size > 0) {
+      const reader = new FileReader();
+      const base64Promise = new Promise<string>((resolve) => {
+        reader.onload = () => resolve(reader.result as string);
+        reader.readAsDataURL(file);
+      });
+      data['screenshot'] = await base64Promise;
+    }
 
     try {
-      // Construct URL-encoded string manually for maximum compatibility
-      const body = Object.entries(data)
-        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value.toString())}`)
-        .join('&');
-
+      // Use JSON instead of URL-encoded for handling large base64 data more reliably
       await fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
-        body: body,
+        body: JSON.stringify(data),
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
         },
       });
       setStatus('success');
@@ -1031,7 +987,10 @@ const RegistrationForm = () => {
         <h3 className="text-3xl font-playful font-black text-sky-900 mb-4 uppercase">Registration Received!</h3>
         <p className="text-sky-700 font-bold text-lg mb-8">We've saved your spot. See you at the camp!</p>
         <button
-          onClick={() => setStatus('idle')}
+          onClick={() => {
+            setStatus('idle');
+            setPreview(null);
+          }}
           className="text-sky-50 font-playful font-black uppercase tracking-widest bg-sky-500 px-8 py-4 rounded-2xl hover:bg-sky-600 transition-colors"
         >
           Register another child
@@ -1044,7 +1003,7 @@ const RegistrationForm = () => {
     <form onSubmit={handleSubmit} className="bg-white p-10 md:p-16 rounded-[4rem] shadow-2xl border-4 border-sky-50 relative z-10 text-left">
       <div className="grid md:grid-cols-2 gap-8 mb-10">
         <div className="space-y-2">
-          <label className="text-xs font-playful font-black uppercase tracking-widest text-sky-300 ml-4">Child's Name</label>
+          <label className="text-sm font-playful font-black uppercase tracking-widest text-sky-400 ml-4">Child's Name</label>
           <input
             required
             name="childName"
@@ -1054,7 +1013,7 @@ const RegistrationForm = () => {
           />
         </div>
         <div className="space-y-2">
-          <label className="text-xs font-playful font-black uppercase tracking-widest text-sky-300 ml-4">Age</label>
+          <label className="text-sm font-playful font-black uppercase tracking-widest text-sky-400 ml-4">Age</label>
           <input
             required
             name="age"
@@ -1064,7 +1023,7 @@ const RegistrationForm = () => {
           />
         </div>
         <div className="space-y-2">
-          <label className="text-xs font-playful font-black uppercase tracking-widest text-sky-300 ml-4">Parent's Name</label>
+          <label className="text-sm font-playful font-black uppercase tracking-widest text-sky-400 ml-4">Parent's Name</label>
           <input
             required
             name="parentName"
@@ -1074,7 +1033,7 @@ const RegistrationForm = () => {
           />
         </div>
         <div className="space-y-2">
-          <label className="text-xs font-playful font-black uppercase tracking-widest text-sky-300 ml-4">Phone Number</label>
+          <label className="text-sm font-playful font-black uppercase tracking-widest text-sky-400 ml-4">Phone Number</label>
           <input
             required
             name="phone"
@@ -1085,8 +1044,8 @@ const RegistrationForm = () => {
         </div>
       </div>
 
-      <div className="space-y-2 mb-12">
-        <label className="text-xs font-playful font-black uppercase tracking-widest text-sky-300 ml-4">Area / Location</label>
+      <div className="space-y-2 mb-10">
+        <label className="text-sm font-playful font-black uppercase tracking-widest text-sky-400 ml-4">Area / Location</label>
         <input
           required
           name="area"
@@ -1094,6 +1053,43 @@ const RegistrationForm = () => {
           placeholder="Enter your area (e.g. Block 1, Shah Faisal)"
           className="w-full px-8 py-5 bg-sky-50/50 border-2 border-transparent focus:border-sky-200 rounded-3xl outline-none transition-all font-bold text-sky-900"
         />
+      </div>
+
+      <div className="bg-sky-50 p-6 md:p-8 rounded-[2.5rem] border-4 border-sky-100 mb-10">
+        <div className="flex flex-col md:flex-row gap-6 items-center">
+          <div className="flex-1 w-full space-y-3">
+            <h4 className="text-sm font-playful font-black text-sky-900 uppercase ml-2">Payment Info</h4>
+            <div className="bg-sky-600 text-white p-6 rounded-3xl shadow-lg">
+              <p className="text-[10px] font-black uppercase tracking-widest text-sky-200 mb-2">Easypaisa - Hamza Jabbar</p>
+              <p className="text-3xl font-black tracking-tighter border-t border-white/10 pt-3">03184867019</p>
+            </div>
+          </div>
+          <div className="flex-1 w-full">
+            <div className="space-y-2">
+              <label className="text-[10px] font-playful font-black uppercase tracking-widest text-sky-300 ml-4">Payment Screenshot</label>
+              <div className="relative group">
+                <input
+                  required
+                  name="screenshot"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="w-full h-[60px] opacity-0 absolute inset-0 z-20 cursor-pointer"
+                />
+                <div className="w-full h-[60px] bg-white border-2 border-dashed border-sky-200 group-hover:border-sky-400 rounded-2xl flex items-center justify-center text-sky-300 font-bold group-hover:text-sky-500 transition-all text-xs overflow-hidden">
+                  {preview ? (
+                    <div className="flex items-center gap-3 w-full h-full px-4">
+                      <img src={preview} alt="Preview" className="w-10 h-10 object-cover rounded-lg shadow-sm" />
+                      <span className="text-sky-600 truncate">Screenshot Ready!</span>
+                    </div>
+                  ) : (
+                    'Click to upload screenshot'
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <button
@@ -1115,25 +1111,28 @@ const RegistrationSection = () => {
   return (
     <section className="bg-white relative overflow-hidden">
       {/* Orange CTA — anchor here so Contact button lands on this */}
-      <div id="register" className="bg-gradient-to-br from-orange-500 to-orange-600 py-32 px-6 text-center relative overflow-hidden">
+      <div id="register" className="bg-gradient-to-br from-orange-500 to-orange-600 py-20 px-6 text-center relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, white 2px, transparent 2px)', backgroundSize: '30px 30px' }} />
         <div className="relative z-10 max-w-4xl mx-auto">
-          <motion.span
+          <div className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2 opacity-10 pointer-events-none hidden lg:block"><Mountain className="w-64 h-64 text-white" /></div><div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 opacity-10 pointer-events-none hidden lg:block"><Sun className="w-64 h-64 text-white animate-pulse" /></div><motion.span
             animate={{ scale: [1, 1.1, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
             className="inline-block text-sm font-playful font-black uppercase tracking-[0.5em] text-white/60 mb-8"
           >
             Don't Miss Out!
           </motion.span>
-          <h2 className="text-6xl md:text-[9rem] font-playful font-black text-white tracking-tighter uppercase leading-[0.85] mb-10 drop-shadow-[0_15px_15px_rgba(0,0,0,0.3)]">
+          <h2 className="text-5xl md:text-7xl font-playful font-black text-white tracking-tighter uppercase leading-none mb-8 drop-shadow-[0_10px_10px_rgba(0,0,0,0.2)]">
             Let's Go<br />
             <span className="text-yellow-300">Camping!</span>
           </h2>
-          <p className="text-white text-2xl font-playful font-bold max-w-2xl mx-auto mb-8 leading-relaxed">
+          <p className="text-white text-2xl font-playful font-bold max-w-2xl mx-auto mb-12 leading-relaxed">
             Secure your spot for only{" "}
-            <span className="bg-white text-orange-600 px-4 py-1 rounded-xl shadow-lg">1,000 PKR</span>.
+            <span className="bg-white text-orange-600 px-4 py-1 rounded-xl shadow-lg">1,200 PKR</span>.
             <span className="text-white/80 text-lg mt-3 block">Early bird & sibling discounts available!</span>
           </p>
+
+
+
           <div className="flex items-center justify-center gap-4 text-white/70 font-playful font-black text-lg uppercase tracking-widest">
             <Phone className="w-5 h-5" />
             +92 332 6999982
@@ -1188,8 +1187,7 @@ export default function App() {
       <Schedule />
       <Activities />
       <Gallery />
-      <Sponsors />
-      <Sponsorship />
+      <Partners />
       <RegistrationSection />
       <Contact />
     </div>
