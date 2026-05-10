@@ -8,13 +8,11 @@ import {
   Calendar,
   MapPin,
   Clock,
-  Trophy,
   BookOpen,
   Gamepad2,
   Heart,
   Phone,
   Mail,
-  ChevronRight,
   Menu,
   X,
   Star,
@@ -27,8 +25,6 @@ import {
   Twitter,
   Sparkles,
   Rocket,
-  Palette,
-  Music,
   Mountain,
   Sun,
   Trees,
@@ -346,11 +342,11 @@ const Hero = () => {
 
 const AboutUs = () => {
   const organizers = [
-    { name: "AFNAN AHMED", role: "ORGANIZER", img: "/images/1.jpeg" },
-    { name: "SALMAN SALEEM", role: "ORGANIZER", img: "/images/19.jpeg" },
-    { name: "MAZHAR AHMED KHAN", role: "ORGANIZER", img: "/images/20.jpeg" },
-    { name: "KHALID SIDDIQUI", role: "ORGANIZER", img: "/images/21.jpeg" },
-    { name: "HAMZA JABBAR", role: "ORGANIZER", img: "/images/22.jpeg" },
+    { name: "AFNAN AHMED", role: "DIRECTOR", img: "/Organizer/Pasted image.png" },
+    { name: "TANZEEL-UR-REHMAN", role: "PLANNING IN-CHARGE", img: "/Organizer/2.jpeg" },
+    { name: "SAAD AHMED SHAMSI", role: "MANAGEMENT IN-CHARGE", img: "/Organizer/1.jpeg" },
+    { name: "HAMZA JABBAR", role: "PRESEDIENT BAZM-E-SATHI", img: "/Organizer/4.jpeg" },
+    { name: "SHAZAIB SHAKEEL", role: "PRESIDENT BAZM-E-SATHI (SCHOOLS)", img: "/Organizer/3.jpeg" },
   ];
 
   return (
