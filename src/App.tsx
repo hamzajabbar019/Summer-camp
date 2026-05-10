@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import EntryPass from "./EntryPass";
 import {
   Calendar,
   MapPin,
@@ -865,9 +866,19 @@ const Partners = () => {
   );
 };
 
+interface FormData {
+  childName: string;
+  age: string;
+  parentName: string;
+  phone: string;
+  area: string;
+}
+
 const RegistrationForm = () => {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [preview, setPreview] = useState<string | null>(null);
+  const [formData, setFormData] = useState<FormData | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -963,6 +974,14 @@ const RegistrationForm = () => {
           'Content-Type': 'application/json',
         },
       });
+      // Capture form data for the entry pass
+      setFormData({
+        childName: data.childName || '',
+        age: data.age || '',
+        parentName: data.parentName || '',
+        phone: data.phone || '',
+        area: data.area || '',
+      });
       setStatus('success');
     } catch (error) {
       console.error('Submission error:', error);
@@ -970,33 +989,25 @@ const RegistrationForm = () => {
     }
   };
 
-  if (status === 'success') {
+  if (status === 'success' && formData) {
     return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="bg-white p-12 rounded-[3rem] text-center shadow-2xl border-4 border-sky-100"
-      >
-        <div className="w-20 h-20 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-8">
-          <ShieldCheck className="w-10 h-10 text-sky-500" />
-        </div>
-        <h3 className="text-3xl font-playful font-black text-sky-900 mb-4 uppercase">Registration Received!</h3>
-        <p className="text-sky-700 font-bold text-lg mb-8">We've saved your spot. See you at the camp!</p>
-        <button
-          onClick={() => {
-            setStatus('idle');
-            setPreview(null);
-          }}
-          className="text-sky-50 font-playful font-black uppercase tracking-widest bg-sky-500 px-8 py-4 rounded-2xl hover:bg-sky-600 transition-colors"
-        >
-          Register another child
-        </button>
-      </motion.div>
+      <EntryPass
+        childName={formData.childName}
+        age={formData.age}
+        parentName={formData.parentName}
+        phone={formData.phone}
+        area={formData.area}
+        onRegisterAnother={() => {
+          setStatus('idle');
+          setPreview(null);
+          setFormData(null);
+        }}
+      />
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-10 md:p-16 rounded-[4rem] shadow-2xl border-4 border-sky-50 relative z-10 text-left">
+    <form ref={formRef} onSubmit={handleSubmit} className="bg-white p-10 md:p-16 rounded-[4rem] shadow-2xl border-4 border-sky-50 relative z-10 text-left">
       <div className="grid md:grid-cols-2 gap-8 mb-10">
         <div className="space-y-2">
           <label className="text-sm font-playful font-black uppercase tracking-widest text-sky-400 ml-4">Child's Name</label>
