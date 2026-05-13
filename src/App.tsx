@@ -29,7 +29,8 @@ import {
   Mountain,
   Sun,
   Trees,
-  Tent
+  Tent,
+  ChevronUp
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -310,7 +311,7 @@ const Hero = () => {
           >
             <span className="animate-bounce">🚀</span> 25 Years of Adventure
           </motion.div>
-          <h1 className="text-5xl md:text-[8rem] font-playful font-black text-white tracking-tighter uppercase leading-[0.85] mb-8 drop-shadow-2xl px-2">
+          <h1 className="text-4xl sm:text-5xl md:text-[8rem] font-playful font-black text-white tracking-tighter uppercase leading-[0.85] mb-8 drop-shadow-2xl px-2">
             Summer<br />
             <span className="text-yellow-400 drop-shadow-[0_12px_0_rgba(234,179,8,0.2)]">Camp</span>
           </h1>
@@ -342,14 +343,6 @@ const Hero = () => {
 };
 
 const AboutUs = () => {
-  const organizers = [
-    { name: "AFNAN AHMED", role: "DIRECTOR", img: "/Organizer/Pasted image.png" },
-    { name: "TANZEEL-UR-REHMAN", role: "PLANNING IN-CHARGE", img: "/Organizer/2.jpeg" },
-    { name: "SAAD AHMED SHAMSI", role: "MANAGEMENT IN-CHARGE", img: "/Organizer/1.jpeg" },
-    { name: "HAMZA JABBAR", role: "PRESEDIENT BAZM-E-SATHI", img: "/Organizer/4.jpeg" },
-    { name: "SHAZAIB SHAKEEL", role: "PRESIDENT BAZM-E-SATHI (SCHOOLS)", img: "/Organizer/3.jpeg" },
-  ];
-
   return (
     <section id="about" className="py-20 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -421,34 +414,6 @@ const AboutUs = () => {
           </motion.div>
         </div>
 
-        {/* Previous Organizers Section */}
-        <div className="mt-40">
-          <div className="text-center mb-20">
-            <motion.span className="text-sky-500 font-playful font-black uppercase tracking-[0.4em] mb-6 block">Our Team</motion.span>
-            <h3 className="text-5xl md:text-7xl font-playful font-black text-sky-900 uppercase tracking-tighter">Previous <span className="text-orange-500">Organizers</span></h3>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
-            {organizers.map((org, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1 }}
-                className="text-center group"
-              >
-                <div className="aspect-square rounded-[3rem] overflow-hidden border-8 border-sky-50 shadow-xl mb-6 group-hover:rotate-3 transition-transform">
-                  <img
-                    src={org.img}
-                    alt={org.name}
-                    className="w-full h-full object-cover transition-all"
-                  />
-                </div>
-                <h4 className="text-2xl font-playful font-black text-sky-900 uppercase tracking-tight">{org.name}</h4>
-                <p className="text-sky-400 font-playful font-black uppercase tracking-widest text-xs mt-2">{org.role}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );
@@ -1185,6 +1150,45 @@ const RegistrationSection = () => {
   );
 };
 
+const ScrollToTop = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.button
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0 }}
+          onClick={scrollToTop}
+          className="fixed bottom-10 right-10 z-50 bg-orange-500 text-white p-4 rounded-2xl shadow-2xl hover:bg-orange-400 transition-colors"
+        >
+          <ChevronUp className="w-8 h-8" />
+        </motion.button>
+      )}
+    </AnimatePresence>
+  );
+};
+
 export default function App() {
   return (
     <div className="min-h-screen bg-white selection:bg-sky-500 selection:text-white font-sans">
@@ -1197,6 +1201,7 @@ export default function App() {
       <Partners />
       <RegistrationSection />
       <Contact />
+      <ScrollToTop />
     </div>
   );
 }
